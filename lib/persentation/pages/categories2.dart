@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/category_data.dart';
 import 'package:flutter_application_1/persentation/pages/categories.dart';
 import 'package:flutter_application_1/persentation/widgets/category2.dart';
 
@@ -23,13 +24,13 @@ class Categories2 extends StatelessWidget {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 15.0, top: 8),
+            padding: const EdgeInsets.only(right: 15.0, top: 8),
             child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => Categories()));
                 },
-                child: Text("Categories")),
+                child: const Text("Categories")),
           )
         ],
       ),
@@ -37,54 +38,35 @@ class Categories2 extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-              padding: EdgeInsets.only(left: 15.0, top: 45),
+              padding: const EdgeInsets.only(left: 15.0, top: 45),
               child: Row(
                 children: [
-                  Icon(Icons.search),
+                  const Icon(Icons.search),
                   Expanded(
                     child: TextFormField(
                       decoration:
-                          InputDecoration(hintText: "Search Categories"),
+                          const InputDecoration(hintText: "Search Categories"),
                     ),
                   )
                 ],
               )),
           Expanded(
-            child: SizedBox(
-              height: 350.0,
-              child: GridView(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                shrinkWrap: true,
-                children: [
-                  Category2(
-                    title: "New Arrival",
-                    productsNum: 208,
-                  ),
-                  Category2(
-                    title: "New Arrival",
-                    productsNum: 208,
-                  ),
-                  Category2(
-                    title: "New Arrival",
-                    productsNum: 208,
-                  ),
-                  Category2(
-                    title: "New Arrival",
-                    productsNum: 208,
-                  ),
-                  Category2(
-                    title: "New Arrival",
-                    productsNum: 208,
-                  ),
-                  Category2(
-                    title: "New Arrival",
-                    productsNum: 208,
-                  ),
-                ],
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                ),
+                itemCount: category.length,
+                itemBuilder: (context, index) => Category2(
+                  title: category[index]['title'],
+                  productsNum: category[index]['productsNum'],
+                ),
               ),
             ),
-          )
+          ),
         ],
       ),
       persistentFooterButtons: [
@@ -116,7 +98,7 @@ class Categories2 extends StatelessWidget {
               const SizedBox(
                 width: 80,
               ),
-              const Icon(Icons.person)
+              const Icon(Icons.person),
             ],
           ),
         )
