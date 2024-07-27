@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 class Category2 extends StatelessWidget {
   final String? title;
   final int? productsNum;
-  final 
 
   const Category2({super.key, this.title, this.productsNum});
 
