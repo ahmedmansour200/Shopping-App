@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class Category2 extends StatelessWidget {
   final String? title;
   final int? productsNum;
+  final String? url;
 
-  const Category2({super.key, this.title, this.productsNum});
+  const Category2({super.key, this.title, this.productsNum, this.url});
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +15,10 @@ class Category2 extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
               image: DecorationImage(
-                image: AssetImage("assets/images/splash.jpg"),
+                image: AssetImage(url!),
                 fit: BoxFit.cover,
               ),
             ),
@@ -58,3 +59,4 @@ class Category2 extends StatelessWidget {
     );
   }
 }
+

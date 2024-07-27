@@ -52,9 +52,9 @@ class Categories2 extends StatelessWidget {
               )),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(10.0),
               child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
@@ -63,6 +63,7 @@ class Categories2 extends StatelessWidget {
                 itemBuilder: (context, index) => Category2(
                   title: category[index]['title'],
                   productsNum: category[index]['productsNum'],
+                  url: category[index]['url'],
                 ),
               ),
             ),
