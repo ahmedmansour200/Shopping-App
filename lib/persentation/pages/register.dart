@@ -1,16 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/persentation/pages/successful.dart';
+import 'package:flutter_application_1/data/model/user.dart';
+import 'package:flutter_application_1/persentation/pages/signin.dart';
+import 'package:hive/hive.dart';
+import 'package:hive/hive.dart';
 
 class SignUp extends StatefulWidget {
   SignUp({super.key});
-
   @override
   State<SignUp> createState() => _SignUpState();
 }
 
+// Add more boxes if needed
+
+Future<void> register(String email, String password) async {
+  final Box<User> _userBox = await Hive.openBox<User>('userBox');
+  final user = User()
+    ..email = email
+    ..token = password;
+  await _userBox.put('user', user);
+}
+
+// Add other authentication methods like login, logout, getUser, etc.
+
 class _SignUpState extends State<SignUp> {
   bool isChecked = false;
+
+  TextEditingController password = TextEditingController();
+  TextEditingController _user_name = TextEditingController();
 
   void toggleCheckbox(bool? value) {
     setState(() {
@@ -18,14 +35,26 @@ class _SignUpState extends State<SignUp> {
     });
   }
 
+  void openBoxes() async {
+    await Hive.openBox<User>('userBox');
+    // Add more boxes if needed
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    openBoxes();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 20.0),
+            padding: const EdgeInsets.only(top: 60.0),
             child: Container(
               width: 150,
               height: 150,
@@ -33,7 +62,7 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.only(top: 10.0, bottom: 10, left: 30),
+            padding: EdgeInsets.only(top: 40.0, bottom: 40, left: 30),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -48,27 +77,19 @@ class _SignUpState extends State<SignUp> {
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text("User Name"),
-                  TextField(),
-                ]),
-          ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(8.0),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text("Email"),
-                  TextField(),
+                  TextField(
+                    controller: _user_name,
+                  ),
                 ]),
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(8.0),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -77,18 +98,7 @@ class _SignUpState extends State<SignUp> {
                   Text("Password"),
                   TextField(
                     obscureText: true,
-                  ),
-                ]),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text("Confirm Password"),
-                  TextField(
-                    obscureText: true,
+                    controller: password,
                   ),
                 ]),
           ),
@@ -96,8 +106,9 @@ class _SignUpState extends State<SignUp> {
             children: [
               Checkbox(value: isChecked, onChanged: toggleCheckbox),
               Text(
-                  "by creating an account you agree to our teams and conditions",
-                  style: TextStyle(fontSize: 10))
+                "by creating an account you agree to our teams and conditions",
+                style: TextStyle(fontSize: 10),
+              )
             ],
           ),
           Padding(
@@ -107,17 +118,20 @@ class _SignUpState extends State<SignUp> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => SuccessfulScreen(),
-                            ),
-                          );
+                        onPressed: () async {
+                          if (_user_name.text != "" && password.text != "") {
+                            register(_user_name.text, password.text);
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (context) => SigninScreen(),
+                              ),
+                            );
+                          }
                         },
                         style: ButtonStyle(
                             backgroundColor:
                                 WidgetStateProperty.all(Colors.black)),
-                        child: const Text("Login",
+                        child: const Text("Register",
                             style: TextStyle(
                               color: Colors.white, // Set the text color here
                               fontSize: 18,

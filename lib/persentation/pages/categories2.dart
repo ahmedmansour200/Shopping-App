@@ -1,12 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/category_data.dart';
-import 'package:flutter_application_1/persentation/pages/categories.dart';
 import 'package:flutter_application_1/persentation/widgets/category2.dart';
 
 class Categories2 extends StatelessWidget {
-  const Categories2({super.key});
-
+  Categories2({super.key});
+  Map<String, int> ecommerceCategories = {
+    "Bogs": 280,
+    "Fashion": 245,
+    "Shoes": 356,
+    "jewelry": 4567,
+    "Arrival": 5678,
+    "Electronics": 6789,
+  };
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,23 +27,12 @@ class Categories2 extends StatelessWidget {
             ),
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15.0, top: 8),
-            child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => Categories()));
-                },
-                child: const Text("Categories")),
-          )
-        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-              padding: const EdgeInsets.only(left: 15.0, top: 45),
+              padding: const EdgeInsets.only(left: 15.0, top: 40),
               child: Row(
                 children: [
                   const Icon(Icons.search),
@@ -51,23 +45,25 @@ class Categories2 extends StatelessWidget {
                 ],
               )),
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(10.0),
+            child: SizedBox(
+              height: 340.0,
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemCount: category.length,
-                itemBuilder: (context, index) => Category2(
-                  title: category[index]['title'],
-                  productsNum: category[index]['productsNum'],
-                  url: category[index]['url'],
-                ),
-              ),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  shrinkWrap: true,
+                  itemCount: ecommerceCategories.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    {
+                      final entry = ecommerceCategories.entries.toList()[index];
+
+                      return Category2(
+                        title: entry.key,
+                        productsNum: entry.value,
+                      );
+                    }
+                  }),
             ),
-          ),
+          )
         ],
       ),
       persistentFooterButtons: [
@@ -99,7 +95,7 @@ class Categories2 extends StatelessWidget {
               const SizedBox(
                 width: 80,
               ),
-              const Icon(Icons.person),
+              const Icon(Icons.person)
             ],
           ),
         )
